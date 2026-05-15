@@ -1,7 +1,39 @@
+version: "2"
 linters:
   enable:
     - asciicheck
     - errorlint
-    - gofmt
     - gosec
     - wastedassign
+  settings:
+    staticcheck:
+      checks:
+        - all
+        # Disable v2-default stylistic checks that fire on pre-existing
+        # upstream code (SPDX/FIPS spec const names with underscores,
+        # etc.) to match the v1 lint behaviour.
+        - -ST1003
+        - -ST1016
+        - -ST1023
+        - -QF1003
+        - -QF1011
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
